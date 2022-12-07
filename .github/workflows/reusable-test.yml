@@ -1,0 +1,42 @@
+name: Reusable Testing Workflow
+
+on:
+  workflow_call:
+
+jobs:
+  Tests:
+    name: Tests
+    runs-on: ${{matrix.os}}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: [ 18.x ]
+        os: [ ubuntu-latest, windows-latest ]
+
+    steps:
+    - name: Check out Repository
+      uses: actions/checkout@v3
+
+    - name: Set up Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm install --no-audit
+
+    - name: Build project
+      run: npm run build
+
+    - name: Run tests and generate coverage report
+      run: npm run coverage
+
+    - name: Upload coverage report to Codecov
+      uses: codecov/codecov-action@v3
+      with:
+        fail_ci_if_error: true
+        files: coverage/lcov.info
+        name: ${{ matrix.os }}/${{ matrix.node-version }}
+        token: ${{ secrets.CODECOV_TOKEN }}

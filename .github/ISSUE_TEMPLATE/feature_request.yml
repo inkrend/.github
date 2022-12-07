@@ -1,0 +1,27 @@
+name: Make a feaure request
+description: Request new functionality.
+labels: [ "feature request" ]
+body:
+  - type: textarea
+    id: feature-description
+    attributes:
+      label: Feature Description
+      placeholder: What feature are you requesting?
+    validations:
+      required: true
+  - type: checkboxes
+    id: search
+    attributes:
+      label: Cursory Search
+      description: Before submitting this feature request, you should search to see if similar requests already exist.
+      options:
+        - label: I have checked for similar feature requests before requesting.
+          required: true
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      description: By submitting this feature request, you agree to follow our [Code of Conduct](https://github.com/inkrend/.github/blob/main/CODE_OF_CONDUCT.md).
+      options:
+        - label: I agree to follow this organization's Code of Conduct.
+          required: true
